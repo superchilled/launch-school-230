@@ -4,9 +4,18 @@
     <meta charset="utf-8">
     <title>Test</title>
     <script>
-    function afterNSeconds(callback, duration) {
-      setTimeout(callback, duration * 1000);
+    var interval;
+
+    function startCounting() {
+      var i = 1;
+      interval = setInterval(function() {
+          console.log(i);
+          i++;
+      }, 1000);
     };
+    function stopCounting() {
+      clearInterval(interval);
+    }
     </script>
   </head>
   <body>
