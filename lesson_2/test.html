@@ -1,24 +1,22 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <title>Test</title>
+    <title>Test Page</title>
     <script>
-    var interval;
-
-    function startCounting() {
-      var i = 1;
-      interval = setInterval(function() {
-          console.log(i);
-          i++;
-      }, 1000);
+    function displayAlert() {
+      var message = document.getElementById('message').value;
+      alert(message);
     };
-    function stopCounting() {
-      clearInterval(interval);
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+      var button = document.getElementById('alert');
+      button.addEventListener('click', displayAlert);
+    });
     </script>
   </head>
   <body>
-
+    <div class="composer">
+  <textarea placeholder="Enter your message"></textarea>
+  <p class="counter"></p>
+  <button type="submit">Post Message</button>
+</div>
   </body>
 </html>
