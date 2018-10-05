@@ -1,0 +1,18 @@
+main {
+  width: 450px;
+  margin: 0 auto;
+}
+
+.tabs {
+  position: relative;
+}
+
+.tabs > article {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.tabs > article + article {
+  visibility: hidden;
+}
