@@ -1,3 +1,7 @@
+body {
+  font-family: sans-serif;
+}
+
 main {
   width: 450px;
   margin: 0 auto;
@@ -11,8 +15,21 @@ main {
   position: absolute;
   top: 0;
   left: 0;
+  padding: 15px;
 }
 
 .tabs > article + article {
-  visibility: hidden;
+  display: none;
+}
+
+article[data-block="gold"] {
+  background-color: gold;
+}
+
+article[data-block="silver"] {
+  background-color: silver;
+}
+
+article[data-block="bronze"] {
+  background-color: #cd7f32;
 }
