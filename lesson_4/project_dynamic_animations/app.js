@@ -1,6 +1,5 @@
 $(function() {
   var $canvas = $('#canvas');
-  // var shapes = [];
 
   $('form').on('submit', function(event) {
     event.preventDefault();
@@ -22,38 +21,21 @@ $(function() {
       'data-endx': endX,
       'data-endy': endY
     });
-    // shapes.push(shape);
     $canvas.append(shape);
-
-    // console.log(shapes);
   });
-
-  function resetElement($e, data) {
-    // $e.css({
-    //   left: +data.startx,
-    //   top: +data.starty
-    // });
-
-    $e.css({
-      'top': $e.attr('data-starty'),
-      'left': $e.attr('data-startx')
-    });
-  }
 
   $('#animate').on('click', function(event) {
     event.preventDefault();
 
     $('.shape').stop();
     $('.shape').each(function() {
-      var $elem = $(this);
-      var data = $elem.data();
 
-      // $elem.css({
-      //   'top': $(this).attr('data-starty'),
-      //   'left': $(this).attr('data-startx')
-      // });
-      resetElement($elem, data);
-      $elem.animate({
+      $(this).css({
+        'top': Number($(this).attr('data-starty')),
+        'left': Number($(this).attr('data-startx'))
+      });
+
+      $(this).animate({
         'top': $(this).attr('data-endy'),
         'left': $(this).attr('data-endx')
       }, 1000);
