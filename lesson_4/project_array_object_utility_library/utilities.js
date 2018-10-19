@@ -1,3 +1,7 @@
+function randomArrayIndex(arrayLength) {
+  return Math.floor(Math.random() * arrayLength);
+};
+
 var _ = function(element) {
   var a = {
     first: function() {
@@ -19,13 +23,83 @@ var _ = function(element) {
       return element.lastIndexOf(value);
     },
     sample: function() {
-      // refactor this to return a random element from the array
-      console.log(arguments.length);
+      var randIndex
+
       if (arguments.length === 0) {
-        return element[0];
+        randIndex = randomArrayIndex(element.length);
+        return element[randIndex];
       } else {
-        return element.slice(0, arguments[0]);
+        var arrCopy = element.slice();
+        var newArr = [];
+        for (var i = 0; i < arguments[0]; i++) {
+          randIndex = randomArrayIndex(arrCopy.length);
+          newArr.push(arrCopy.splice(randIndex, 1).pop());
+        }
+
+        return newArr;
       }
+    },
+    findWhere: function(matchObject) {
+      var foundObject;
+      var currentObject;
+      var match;
+      var matchKeys = Object.keys(matchObject);
+      var currentKey;
+
+      for (var i = 0; i < element.length; i++) {
+        match = true;
+        currentObject = element[i];
+
+        for (var j = 0; j < matchKeys.length; j++) {
+          currentKey = matchKeys[j];
+
+          if (matchObject[currentKey] !== currentObject[currentKey]) {
+            match = false;
+            break;
+          }
+        }
+
+        if (match === true) {
+          foundObject = currentObject;
+          break;
+        }
+      }
+      return foundObject;
+    },
+    where: function(matchObject) {
+      var foundObjects = [];
+      var matchKeys = Object.keys(matchObject);
+      var currentKey;
+
+      element.forEach(function(obj) {
+        for (var i = 0; i < matchKeys.length; i++) {
+          currentKey = matchKeys[i];
+
+          if (matchObject[currentKey] !== obj[currentKey]) {
+            continue;
+          }
+          foundObjects.push(obj);
+        }
+      });
+
+      return foundObjects;
+    },
+    pluck: function(key) {
+      var returnedValues = [];
+
+      element.forEach(function(obj) {
+        if (obj[key]) {
+          returnedValues.push(obj[key]);
+        }
+      });
+
+      return returnedValues;
+    },
+    keys: function() {
+      return Object.keys(element);
+    },
+    values: function() {
+      return Object.values(element);
     },
   };
 
