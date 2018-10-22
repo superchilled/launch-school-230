@@ -101,6 +101,18 @@ var _ = function(element) {
     values: function() {
       return Object.values(element);
     },
+    pick: function() {
+      var newObject = {};
+      var propertiesArray = Array.prototype.slice.call(arguments);
+
+      propertiesArray.forEach(function(property) {
+        if (element[property]) {
+          newObject[property] = element[property];
+        }
+      });
+
+      return newObject;
+    },
   };
 
   return a;
@@ -123,4 +135,21 @@ _.range = function() {
   }
 
   return rangeArr;
+};
+
+_.extend = function() {
+  var objectsArray;
+  var lastObject;
+  var secondLastObject;
+  if (arguments.length === 1) {
+    return arguments[0];
+  } else {
+    objectsArray = Array.prototype.slice.call(arguments);
+    lastObject = objectsArray.pop();
+    secondLastObject = objectsArray[objectsArray.length - 1];
+    for (var prop in lastObject) {
+      secondLastObject[prop] = lastObject[prop]
+    }
+    return _.extend.apply(this, objectsArray);
+  }
 };
