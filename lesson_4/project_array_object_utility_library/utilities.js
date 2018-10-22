@@ -113,6 +113,45 @@ var _ = function(element) {
 
       return newObject;
     },
+    omit: function() {
+      var newObject = Object.assign({}, element);
+      var propertiesArray = Array.prototype.slice.call(arguments);
+
+      propertiesArray.forEach(function(property) {
+        if (newObject[property]) {
+          delete newObject[property];
+        }
+      });
+
+      return newObject;
+    },
+    has: function(prop) {
+      if(element[prop]) {
+        return true;
+      }
+      return false;
+    },
+    isElement: function() {
+      return _.isElement(arguments);
+    },
+    isArray: function() {
+      return _.isArray(arguments);
+    },
+    isObject: function() {
+      return _.isObject(arguments);
+    },
+    isFunction: function() {
+      return _.isFunction(arguments);
+    },
+    isString: function() {
+      return _.isString(arguments);
+    },
+    isNumber: function() {
+      return _.isNumber(arguments);
+    },
+    isBoolean: function() {
+      return _.isBoolean(arguments);
+    },
   };
 
   return a;
@@ -152,4 +191,32 @@ _.extend = function() {
     }
     return _.extend.apply(this, objectsArray);
   }
+};
+
+_.isElement = function(val) {
+  return val && val.nodeType === 1;
+};
+
+_.isArray = function(val) {
+  return Array.isArray(val);
+};
+
+_.isObject = function(val) {
+  return typeof val === 'object' || typeof val === 'function';
+};
+
+_.isFunction = function(val) {
+  return typeof val === 'function';
+};
+
+_.isString = function(val) {
+  return typeof val === 'string' || val.constructor === String;
+};
+
+_.isNumber = function(val) {
+  return typeof val === 'number' || val.constructor === Number;
+};
+
+_.isBoolean = function(val) {
+  return typeof val === 'boolean' || val.constructor === Boolean;
 };
