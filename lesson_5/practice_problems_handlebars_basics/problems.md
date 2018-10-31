@@ -103,5 +103,43 @@ Create a `posts` array, adding the existing post to it. Add a second post with n
 ### Solution
 
 ```
+$(function() {
+  var $postTemplate = $('#post').remove();
+  var $postsTemplate = $('#posts').remove();
+  var $tagsTemplate = $('#tags').remove();
+  var postTemplateFunction = Handlebars.compile($postTemplate.html());
+  var postsTemplateFunction = Handlebars.compile($postsTemplate.html());
+  var tagsTemplateFunction = Handlebars.compile($tagsTemplate.html());
+  Handlebars.registerPartial('postTemplate', postTemplateFunction);
+  Handlebars.registerPartial('tagsTemplate', tagsTemplateFunction);
+  $('body').append(postsTemplateFunction({ posts: posts }));
+});
+```
 
+```
+<script id="post" type="text/x-handlebars">
+    <article>
+      <h1>{{title}}</h1>
+      <p><time>Posted on {{published}}</time></p>
+      <p>Tags:</p>
+      {{#if tags}}
+      <ul>
+        {{> tagsTemplate}}
+      </ul>
+      {{else}}
+        <p>Not tagged</p>
+      {{/if}}
+      {{{body}}}
+    </article>
+</script>
+<script id="tags" type="text/x-handlebars">
+  {{#each tags}}
+    <li>{{this}}</li>
+  {{/each}}
+</script>
+<script id="posts" type="text/x-handlebars">
+  {{#each posts}}
+    {{> postTemplate}}
+  {{/each}}
+</script>
 ```

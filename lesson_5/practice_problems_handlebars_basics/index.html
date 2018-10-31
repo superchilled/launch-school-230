@@ -11,21 +11,28 @@
   </head>
   <body>
     <script id="post" type="text/x-handlebars">
-      {{#each posts}}
         <article>
           <h1>{{title}}</h1>
           <p><time>Posted on {{published}}</time></p>
           <p>Tags:</p>
+          {{#if tags}}
           <ul>
             {{> tagsTemplate}}
           </ul>
+          {{else}}
+            <p>Not tagged</p>
+          {{/if}}
           {{{body}}}
         </article>
-      {{/each}}
     </script>
     <script id="tags" type="text/x-handlebars">
       {{#each tags}}
         <li>{{this}}</li>
+      {{/each}}
+    </script>
+    <script id="posts" type="text/x-handlebars">
+      {{#each posts}}
+        {{> postTemplate}}
       {{/each}}
     </script>
   </body>
