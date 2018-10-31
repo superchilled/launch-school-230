@@ -1,5 +1,7 @@
 $(function() {
-  var $slides = $('#slides');
+  var photoData;
+  var $slideShow = $('#slides');
+  var $slides = $('#slides > figure');
   var $photoInfo = $('section > header');
   var $photoComments = $('#comments > ul');
   var $photosTemplate = $('#photos').remove();
@@ -17,15 +19,50 @@ $(function() {
     type: "GET",
     dataType : "json",
   }).done(function(json) {
-      $slides.append(photosTemplateFunc({ photos: json }));
-      $photoInfo.append(photoInformationTemplateFunc(json[0]));
-
-      $.ajax({
-        url: '/comments?photo_id=' + json[0].id,
-        type: "GET",
-        dataType : "json",
-      }).done(function(commentJson) {
-        $photoComments.append(photoCommentsTemplate({ comments: commentJson }));
-      });
+      photoData = json;
+      $slideShow.append(photosTemplateFunc({ photos: photoData }));
+      updatePhotoInfo(1);
+      updateComments(photoData[0].id);
   });
+
+  $('.next').on('click', function(event) {
+    event.preventDefault();
+    var $currentSlide = $($('#slides > figure').first());
+    var $nextSlide = $currentSlide.next('figure');
+    var nextSlideId = Number($nextSlide.attr('data-id'));
+    $currentSlide.fadeOut(500);
+    $nextSlide.fadeIn(500);
+    $slideShow.append($currentSlide);
+    updatePhotoInfo(nextSlideId);
+    updateComments(nextSlideId);
+  });
+
+  $('.prev').on('click', function(event) {
+    event.preventDefault();
+    var $currentSlide = $($('#slides > figure').first());
+    var $lastSlide = $($('#slides > figure').last());
+    var lastSlideId = Number($lastSlide.attr('data-id'));
+    $currentSlide.fadeOut(500);
+    $lastSlide.fadeIn(500);
+    $slideShow.prepend($lastSlide);
+    updatePhotoInfo(lastSlideId);
+    updateComments(lastSlideId);
+  });
+
+  function updatePhotoInfo(slideId) {
+    slideData = photoData.filter(function functionName(slide) {
+      return slide.id === slideId;
+    });
+    $photoInfo.html(photoInformationTemplateFunc(slideData[0]));
+  };
+
+  function updateComments(slideId) {
+    $.ajax({
+      url: '/comments?photo_id=' + slideId,
+      type: "GET",
+      dataType : "json",
+    }).done(function(commentJson) {
+      $photoComments.html(photoCommentsTemplate({ comments: commentJson }));
+    });
+  };
 });
