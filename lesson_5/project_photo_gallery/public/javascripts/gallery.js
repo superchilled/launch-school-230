@@ -12,20 +12,20 @@ $(function() {
   var photoCommentTemplate = Handlebars.compile($photoCommentTemplate.html());
   Handlebars.registerPartial('comment', photoCommentTemplate);
 
-  var photosResponse = $.ajax({
+  $.ajax({
     url: '/photos',
     type: "GET",
     dataType : "json",
-  }).done(function() {
-      $slides.append(photosTemplateFunc({ photos: photosResponse.responseJSON }));
-      $photoInfo.append(photoInformationTemplateFunc(photosResponse.responseJSON[0]));
-      console.log(photosResponse.responseJSON[0].id);
-      var firstPhotoComments = $.ajax({
-        url: '/comments?photo_id=' + photosResponse.responseJSON[0].id,
+  }).done(function(json) {
+      $slides.append(photosTemplateFunc({ photos: json }));
+      $photoInfo.append(photoInformationTemplateFunc(json[0]));
+
+      $.ajax({
+        url: '/comments?photo_id=' + json[0].id,
         type: "GET",
         dataType : "json",
-      }).done(function() {
-        $photoComments.append(photoCommentsTemplate({ comments: firstPhotoComments.responseJSON }));
+      }).done(function(commentJson) {
+        $photoComments.append(photoCommentsTemplate({ comments: commentJson }));
       });
   });
 });
