@@ -24,7 +24,7 @@
 
       <section>
         <header>
-          
+
         </header>
 
         <div id="comments">
@@ -66,24 +66,32 @@
       <p><time>Taken on {{created_at}}</time></p>
       <div class="actions">
         <a href="/photos/like" data-id="{{id}}" data-property="likes" class="button like">
-          ♡
-          {{#if likes}}
-          {{likes}}
-          {{else}}
-          0
-          {{/if}}
-          Likes
+          {{> likesPartial}}
         </a>
         <a href="/photos/favorite" data-id="{{id}}" data-property="favorites" class="button favorite">
-          ☆
-          {{#if favorites}}
-          {{favorites}}
-          {{else}}
-          0
-          {{/if}}
-          Favorites
+          {{> favoritesPartial}}
         </a>
       </div>
+    </script>
+
+    <script id="likes_template" data-type="partial" type="text/x-handlebars">
+      ♡
+      {{#if likes}}
+      {{likes}}
+      {{else}}
+      0
+      {{/if}}
+      Likes
+    </script>
+
+    <script id="favorites_template" data-type="partial" type="text/x-handlebars">
+      ☆
+      {{#if favorites}}
+      {{favorites}}
+      {{else}}
+      0
+      {{/if}}
+      Favorites
     </script>
 
     <script id="comments-template" type="text/x-handlebars">
