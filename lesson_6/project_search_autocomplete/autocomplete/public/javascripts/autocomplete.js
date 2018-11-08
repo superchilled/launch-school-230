@@ -47,11 +47,27 @@ var Autocomplete = {
         this.bestMatchIndex = null;
         this.draw();
         break;
+      case 'Tab':
+          if (this.bestMatchIndex !== null) {
+            this.input.value = this.matches[this.bestMatchIndex].name;
+            event.preventDefault();
+          }
+          this.reset();
+          break;
+      case 'Enter':
+        this.reset();
+        break;
+
+      case 'Escape': // escape
+        this.input.value = this.previousValue;
+        this.reset();
+        break;
     }
   },
 
   valueChanged: function() {
     var value = this.input.value;
+    this.previousValue = value;
 
     if (value.length > 0) {
       this.fetchMatches(value, function(matches) {
@@ -96,9 +112,14 @@ var Autocomplete = {
       this.overlay.textContent = '';
     }
 
-    this.matches.forEach(function(match) {
+    this.matches.forEach(function(match, index) {
       var li = document.createElement('li');
       li.classList.add('autocomplete-ui-choice');
+
+      if (index === this.selectedIndex) {
+        li.classList.add('selected');
+        this.input.value = match.name;
+      }
 
       li.textContent = match.name;
       this.listUI.appendChild(li);
@@ -110,6 +131,7 @@ var Autocomplete = {
     this.matches = [];
     this.bestMatchIndex = null;
     this.selectedIndex = null;
+    this.previousValue = null;
 
     this.draw();
   },
