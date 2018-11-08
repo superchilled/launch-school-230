@@ -28,7 +28,7 @@ var Autocomplete = {
 
   handleMousedown: function(event) {
     event.preventDefault();
-    
+
     this.input.value = event.target.textContent;
     this.reset();
   },
@@ -155,6 +155,9 @@ var Autocomplete = {
 
     this.wrapInput();
     this.createUI();
+
+    this.valueChanged = debounce(this.valueChanged.bind(this), 300);
+
     this.bindEvents();
 
     this.reset();
